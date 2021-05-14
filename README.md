@@ -6,6 +6,5 @@ Run the script file **create_key.sh** for creating the key
 `chmod +x create_key.sh && ./create+key.sh`
 
 * Then run `terraform init ` to initialize a working directory containing Terraform configuration files 
-
-`terraform apply` to make your infrastucture
-and you can login with private key created from script file
+`terraform apply` to make your infrastucture 
+* login with private key created from script file
