@@ -1,3 +1,4 @@
+![](https://img.shields.io/badge/Terraform-15.3-green) ![]()
 # terraform
 Run the script file **create_key.sh** for creating the key
 * For non-root user
