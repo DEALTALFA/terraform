@@ -1,15 +1,18 @@
-#tells which provider to use
+# >>> tells which provider to use >>>
 provider "aws"{
 region="ap-south-1"
 shared_credentials_file= "credential.txt"
 }
-#which key to use
+# <<< INTFRASTRUCTURE CODE BELOW <<<
+
+# >>>which key to use >>>
 resource "aws_key_pair" "deployer" {
 key_name = "terraform-key"
   public_key = file("private.pub") #starting with ssh-rsa
 }
+# <<< key created <<<
 
-#creating SecurityGroup for the instance
+# >>> creating SecurityGroup for the instance >>>
 resource "aws_security_group" "mysg" {
   name        = "sg_for_TF"
   description = "Allow all inbound and outbound traffic"
@@ -38,8 +41,9 @@ resource "aws_security_group" "mysg" {
     Name = " allow all traffic for TF"
   }
 }
+# <<< SG creation completed for instance <<<
 
-# creating a instance on aws
+# >>> creating a instance on aws >>>
 resource "aws_instance" "web" {
   ami           = "ami-010aff33ed5991201"
   instance_type = "t2.micro"
@@ -54,13 +58,14 @@ resource "aws_instance" "web" {
     Name = "web for TF"
   }
 }
+# <<< creating instance finished <<<
 
 #only for testing purpose
 output "output_of_instance" {
 value = aws_instance.web
 }
 
-#making connection with the instance on the cloud and running commands
+# >>> making connection with the instance on the cloud and running commands >>>
 resource "null_resource" "run"{
  connection {
         type = "ssh"
@@ -76,7 +81,7 @@ resource "null_resource" "run"{
         "sudo mount /dev/xvdb /var/www/html",
         "sudo yum install git -y",
         "sudo git clone https://github.com/DEALTALFA/test2.git /var/www/html/web"
-]
+		]
+	}
 }
-}
-
+# <<< connection complete <<<
