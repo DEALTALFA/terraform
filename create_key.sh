@@ -1,3 +1,4 @@
+#!/bin/bash
 
 if [ "$(uname -o)" == "GNU/Linux" ]
 then
