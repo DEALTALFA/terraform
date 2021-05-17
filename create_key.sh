@@ -17,4 +17,4 @@ fi
 	puttygen private.ppk -O private-openssh -o pemkey.pem
 
 '	
-# if want to run the command copy and paste in your terminal
+# if want to run the command anyway copy and paste in your terminal
