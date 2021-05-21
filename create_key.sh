@@ -6,6 +6,11 @@ then
 	ssh-keygen -t rsa -m pem -f "private"
 else
 	echo "Not a Linux System"
+	read -p "Is it window system (yes/no)??" reply
+	if (( $reply == "yes" ))
+	then
+		ssh-keygen
+	fi
 fi
 
 
