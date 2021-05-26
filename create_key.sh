@@ -1,17 +1,10 @@
 #!/bin/bash
 
-if [ "$(uname -o)" == "GNU/Linux" ]
-then
-	#create private and pub key
-	ssh-keygen -t rsa -m pem -f "private"
-else
-	echo "Not a Linux System"
-	read -p "Is it window system (yes/no)??" reply
-	if (( $reply == "yes" ))
-	then
-		ssh-keygen
-	fi
-fi
+#create private and pub key
+[ "$(uname -o)" == "GNU/Linux" ] && ssh-keygen -t rsa -m pem -f "private"
+[ "$(uname -o)" == "GNU/Linux" ] || echo "Not a Linux System" && \
+	read -p "Is it window system (yes/no)??" reply && \
+       	[ $reply == "yes" ] && ssh-keygen
 
 
 : '
