@@ -5,9 +5,29 @@
   package:
           name: "httpd"
           state: present
+  loop:
+          - "httpd"
+          - "git"        
 - name: "starting httpd"
   service:
           name: "httpd"
           state: started
           enabled: true
+- name: "Making filesystem"
+  filesystem:
+          dev: "/dev/xvdb"
+          fstype: ext4
+          state: absent
+- name: "Mount the disk instance"
+  mount:
+          path: "/var/www/html"
+          src: "/dev/xvdb"
+          fstype: ext4
+          state: mounted
+- name: "Cloning repository"
+  git:
+          dest: "/var/www/html/"
+          remote: "master"
+          repo: "https://github.com/DEALTALFA/test2.git"
+
 
