@@ -60,28 +60,25 @@ resource "aws_instance" "web" {
 }
 # <<< creating instance finished <<<
 
-#only for testing purpose
+/*
+only for testing purpose
 output "output_of_instance" {
 value = aws_instance.web
 }
+*/
 
-# >>> making connection with the instance on the cloud and running commands >>>
+# >>> adding IP in ansible inventory under [cloud] group >>>
+
 resource "null_resource" "run"{
- connection {
-        type = "ssh"
-        user = "ec2-user"
-        private_key = file("private")
-        host = aws_instance.web.public_ip
+provisioner "local-exec"{
+command= "[ $(sudo grep '${aws_instance.web.public_ip}' /etc/ansible/hosts) ] || (echo 'runs' && sudo sed -i '/cloud]/a${aws_instance.web.public_ip}' /etc/ansible/hosts && echo 'waiting for instance to launch successfully' && sleep 30 && ansible-playbook playbook.yml)"
+
+/*  practiced commented  line 
+command= "sed -e 's/cloud]/&\n${aws_instance.web.public_ip} /' /etc/ansible/hosts"
+command= "echo ${aws_instance.web.public_ip} >> mac.txt"
+*/
+
 }
- provisioner "remote-exec"{
-        inline=[
-        "sudo yum install httpd -y",
-        "sudo systemctl enable httpd --now",
-        "sudo mkfs.ext3 /dev/xvdb",
-        "sudo mount /dev/xvdb /var/www/html",
-        "sudo yum install git -y",
-        "sudo git clone https://github.com/DEALTALFA/test2.git /var/www/html/web"
-		]
-	}
 }
-# <<< connection complete <<<
+
+# <<< updated inventory and configure complete <<<
